@@ -1,0 +1,63 @@
+import java.util.Scanner;
+import java.util.Random;
+public class NumberGuessingGame {
+
+    // Method to play one round of the guessing game
+    public static boolean playRound(int maxAttempts) {
+        Random random = new Random();
+        int numberToGuess = random.nextInt(100) + 1; // Generate random number between 1 and 100
+        int attempts = 0;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Guess the number (between 1 and 100).");
+
+        // Loop until the player guesses correctly or runs out of attempts
+        while (attempts < maxAttempts) {
+            attempts++;
+            System.out.print("Attempt " + attempts + "/" + maxAttempts + ": Enter your guess: ");
+            int userGuess = scanner.nextInt();
+
+            if (userGuess < numberToGuess) {
+                System.out.println("Too low! Try again.");
+            } else if (userGuess > numberToGuess) {
+                System.out.println("Too high! Try again.");
+            } else {
+                System.out.println("Congratulations! You guessed the correct number " + numberToGuess + " in " + attempts + " attempts.");
+                return true; // Correct guess
+            }
+        }
+
+        System.out.println("Sorry! You've used all your attempts. The correct number was " + numberToGuess + ".");
+        return false; // Incorrect guess
+    }
+
+    // Method to start a new game with multiple rounds
+    public static void startGame() {
+        Scanner scanner = new Scanner(System.in);
+        int roundsWon = 0;
+        int maxAttempts = 10;
+
+        while (true) {
+            if (playRound(maxAttempts)) {
+                roundsWon++; // Increment the score if the user wins the round
+            }
+
+            System.out.println("Your current score: " + roundsWon + " round(s) won.");
+
+            // Ask the user if they want to play again
+            System.out.print("Do you want to play again? (y/n): ");
+            String playAgain = scanner.next().toLowerCase();
+
+            if (!playAgain.equals("y")) {
+                break; // Exit the loop if the user doesn't want to play again
+            }
+        }
+
+        System.out.println("Thanks for playing! Your final score is " + roundsWon + " round(s) won.");
+    }
+
+    // Main method to start the game
+    public static void main(String[] args) {
+        startGame();
+    }
+}
